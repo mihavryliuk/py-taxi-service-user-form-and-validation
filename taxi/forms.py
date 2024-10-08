@@ -7,8 +7,12 @@ from taxi.models import Driver, Car
 
 license_number_validator = RegexValidator(
     regex=r"^[A-Z]{3}\d{5}$",
-    message="License number must start with 3 uppercase letters followed by 5 digits."
+    message=(
+        "License number must start with 3 uppercase letters "
+        "followed by 5 digits."
+    )
 )
+
 
 class DriverCreationForm(UserCreationForm):
     license_number = forms.CharField(
@@ -20,6 +24,7 @@ class DriverCreationForm(UserCreationForm):
         model = Driver
         fields = UserCreationForm.Meta.fields + ("license_number",)
 
+
 class CarForm(forms.ModelForm):
     drivers = forms.ModelChoiceField(
         queryset=get_user_model().objects.all(),
@@ -30,6 +35,7 @@ class CarForm(forms.ModelForm):
     class Meta:
         model = Car
         fields = "__all__"
+
 
 class DriverLicenseUpdateForm(forms.ModelForm):
     license_number = forms.CharField(
