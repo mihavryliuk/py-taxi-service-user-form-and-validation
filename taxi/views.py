@@ -5,8 +5,8 @@ from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import UpdateView
 
-from .forms import DriverCreationForm, CarForm, DriverLicenseUpdateForm
-from .models import Driver, Car, Manufacturer
+from taxi.forms import DriverCreationForm, CarForm, DriverLicenseUpdateForm
+from taxi.models import Driver, Car, Manufacturer
 
 
 @login_required
@@ -57,7 +57,7 @@ class ManufacturerDeleteView(LoginRequiredMixin, generic.DeleteView):
 class CarListView(LoginRequiredMixin, generic.ListView):
     model = Car
     paginate_by = 5
-    queryset = Car.objects.all().select_related("manufacturer")
+    queryset = Car.objects.all().select_related("manufacturer").prefetch_related("drivers")
 
 
 class CarDetailView(LoginRequiredMixin, generic.DetailView):
